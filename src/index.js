@@ -1,51 +1,170 @@
 /**
- * Represents a book.
- * @constructor
- * @param {string} title - The title of the book.
- * @param {string} author - The author of the book.
+ * 할일
+ * @typedef {Object} Todo
+ * @property {number} id - 할일 id
+ * @property {string} contents - 할일 내용
+ * @property {boolean} completed - 할일 완료 여부
+ * @property {string} category - 할일 카테고리
+ * @property {array} [tags] - 할일 태그들
  */
-function Book(title, author) {}
 
 /**
- * Both of these will link to the bar function.
- * @see {@link bar}
- * @see bar
+ * 할일 목록
+ * @type {Todo[]}
  */
-function foo() {}
 
-// Use the inline {@link} tag to include a link within a free-form description.
-/**
- * @see {@link foo} for further information.
- * @see {@link http://github.com|GitHub}
- */
-function bar() {}
+let todos = [
+  {
+    id: 1,
+    contents: "React",
+    completed: true,
+    category: "coding",
+    tags: ["frontend"],
+  },
+  {
+    id: 2,
+    contents: "JavaScript",
+    completed: true,
+    category: "coding",
+    tags: ["frontend", "backend"],
+  },
+  {
+    id: 3,
+    contents: "TypeScript",
+    completed: false,
+    category: "coding",
+    tags: ["frontend", "backend"],
+  },
+  { id: 4, contents: "Laundry", completed: false, category: "housework" },
+];
 
 /**
- * Generic dairy product.
- * @constructor
+ * CREATE
+ * @param {string} contents
+ * @param {string} category
+ * @param {array} [tags]
+ * @returns {Todo}
  */
-function DairyProduct() {}
-
-/**
- * Check whether the dairy product is solid at room temperature.
- * @abstract
- * @return {boolean}
- */
-DairyProduct.prototype.isSolid = function () {
-	throw new Error('must be implemented by subclass!');
+const create = (contents, category, tags) => {
+  return {
+    id: todos.length,
+    contents,
+    completed: false,
+    category,
+    tags,
+  };
 };
 
 /**
- * Cool, refreshing milk.
- * @constructor
- * @augments DairyProduct
+ * READ
+ * @param {number} [id]
+ * @returns {Todo[]}
  */
-function Milk() {}
+
+const read = (id) => {
+  if (id) {
+    const targetTodo = todos.find((todo) => todo.id === id);
+    return [targetTodo];
+  }
+  return todos;
+};
 
 /**
- * Check whether milk is solid at room temperature.
- * @return {boolean} Always returns false.
+ * UPDATE TODO
+ * @param {number} id
+ * @param {string} [contents]
+ * @param {boolean} [completed]
+ * @param {string} [category]
+ * @param {array} [tags]
+ * @returns {Todo[]}
  */
-Milk.prototype.isSolid = function () {
-	return false;
+
+const updateTodo = (id, contents, completed, category, tags) => {
+  const targetTodo = todos.find((todo) => todo.id === id);
+  if (contents) targetTodo.contents = contents;
+  if (completed) targetTodo.completed = completed;
+  if (category) targetTodo.category = category;
+  if (tags) targetTodo.tags = tags;
+  return todos;
+};
+
+/**
+ * UPDATE Specific tag
+ * @param {number} id
+ * @param {any} targetTag
+ * @param {any} changeTag
+
+ * @returns {Todo[]}
+ */
+
+const updateTodoTag = (id, targetTag, changeTag) => {
+  const targetTodo = todos.find((todo) => todo.id === id);
+  if (!targetTodo.tags) return todos;
+  const index = arr.indexOf(targetTag);
+  if (index !== -1) {
+    arr[index] = changeTag;
+    return todos;
+  } else {
+    return todos;
+  }
+};
+
+// DELETE
+// 특정 할 일의 특정 태그를 삭제할 수 있다.
+// 특정 할 일의 모든 태그를 제거할 수 있다.
+
+/**
+ * Delete Specific Todo
+ * @param {number} id
+ * @returns {Todo[]}
+ */
+
+const deleteTodo = (id) => {
+  const todosWithoutIdTodo = todos.filter((todo) => todo.id !== id);
+  todos = todosWithoutIdTodo;
+  return todos;
+};
+
+/**
+ * Delete All Todo
+ * @returns {void}
+ */
+const deleteAllTodo = () => {
+  todos = [];
+};
+
+/**
+ * Delete Specific Tag
+ * @param {number} id
+ * @param {any} targetTag
+ * @returns {Todo[]}
+ */
+
+const deleteSpecificTagInTodo = (id, targetTag) => {
+  todos.map((todo) => {
+    if (todo.id === id) {
+      if (todo?.tags.includes(targetTag)) {
+        const idx = todo.tags.indexOf(targetTag);
+        if (idx > -1) todo.tags.splice(idx, 1);
+      }
+      return todos;
+    }
+  });
+};
+
+/**
+ * Delete Specific Tag
+ * @param {number} id
+ * @returns {Todo[]}
+ */
+
+const deleteAllTagInTodo = (id) => {
+  todos.map((todo) => {
+    if (todo.id === id) {
+      if (todo.hasOwnProperty("tags")) {
+        delete todo.tags;
+      }
+      return todos;
+    }
+  });
 };
