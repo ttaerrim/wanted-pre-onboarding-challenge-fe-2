@@ -5,7 +5,7 @@
  * @property {string} contents - 할일 내용
  * @property {boolean} completed - 할일 완료 여부
  * @property {string} category - 할일 카테고리
- * @property {array} [tags] - 할일 태그들
+ * @property {string[]} [tags] - 할일 태그들
  */
 
 /**
@@ -42,7 +42,7 @@ let todos = [
  * CREATE
  * @param {string} contents
  * @param {string} category
- * @param {array} [tags]
+ * @param {string[]} [tags]
  * @returns {Todo[]}
  */
 const create = (contents, category, tags) => {
@@ -77,7 +77,7 @@ const read = (id) => {
  * @param {string} [contents]
  * @param {boolean} [completed]
  * @param {string} [category]
- * @param {array} [tags]
+ * @param {string[]} [tags]
  * @returns {Todo[]}
  */
 
@@ -97,8 +97,8 @@ const updateTodo = (id, contents, completed, category, tags) => {
 /**
  * UPDATE Specific tag
  * @param {number} id
- * @param {any} targetTag
- * @param {any} changeTag
+ * @param {string} targetTag
+ * @param {string} changeTag
 
  * @returns {Todo[]}
  */
@@ -143,7 +143,7 @@ const deleteAllTodo = () => {
 /**
  * Delete Specific Tag
  * @param {number} id
- * @param {any} targetTag
+ * @param {string} targetTag
  * @returns {Todo[]}
  */
 
