@@ -43,16 +43,18 @@ let todos = [
  * @param {string} contents
  * @param {string} category
  * @param {array} [tags]
- * @returns {Todo}
+ * @returns {Todo[]}
  */
 const create = (contents, category, tags) => {
-  return {
+  const newTodo = {
     id: todos.length,
     contents,
     completed: false,
     category,
     tags,
   };
+  todos.push(newTodo);
+  return todos;
 };
 
 /**
@@ -80,12 +82,16 @@ const read = (id) => {
  */
 
 const updateTodo = (id, contents, completed, category, tags) => {
-  const targetTodo = todos.find((todo) => todo.id === id);
-  if (contents) targetTodo.contents = contents;
-  if (completed) targetTodo.completed = completed;
-  if (category) targetTodo.category = category;
-  if (tags) targetTodo.tags = tags;
-  return todos;
+  todos.map((todo) => {
+    if (todo.id === id) {
+      if (contents) todo.contents = contents;
+      if (completed) todo.completed = completed;
+      if (category) todo.category = category;
+      if (tags) todo.tags = tags;
+
+      return todos;
+    }
+  });
 };
 
 /**
@@ -98,15 +104,15 @@ const updateTodo = (id, contents, completed, category, tags) => {
  */
 
 const updateTodoTag = (id, targetTag, changeTag) => {
-  const targetTodo = todos.find((todo) => todo.id === id);
-  if (!targetTodo.tags) return todos;
-  const index = arr.indexOf(targetTag);
-  if (index !== -1) {
-    arr[index] = changeTag;
-    return todos;
-  } else {
-    return todos;
-  }
+  todos.map((todo) => {
+    if (todo.id === id) {
+      if (todo?.tags.includes(targetTag)) {
+        const index = arr.indexOf(targetTag);
+        arr[index] = changeTag;
+      }
+      return todos;
+    }
+  });
 };
 
 // DELETE
@@ -127,10 +133,11 @@ const deleteTodo = (id) => {
 
 /**
  * Delete All Todo
- * @returns {void}
+ * @returns {array}
  */
 const deleteAllTodo = () => {
   todos = [];
+  return todos;
 };
 
 /**
